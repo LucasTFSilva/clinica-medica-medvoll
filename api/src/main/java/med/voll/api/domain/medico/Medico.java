@@ -1,15 +1,16 @@
-package med.voll.api.medico;
+package med.voll.api.domain.medico;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.dto.DadosMedicoDTO;
-import med.voll.api.dto.atualizarDadosMedicoDTO;
-import med.voll.api.endereco.Endereco;
-import med.voll.api.especialidade.Especialidade;
+import med.voll.api.domain.dto.DadosMedicoDTO;
+import med.voll.api.domain.dto.atualizarDadosMedicoDTO;
+import med.voll.api.domain.endereco.Endereco;
+import med.voll.api.domain.especialidade.Especialidade;
 
+//Entidade JPA
 @Table(name="medicos")
 @Entity(name="Medico")
 @Getter
@@ -29,6 +30,7 @@ public class Medico {
 
     @Embedded
     private Endereco endereco;
+    private boolean ativo = true;
 
 
     public Medico(DadosMedicoDTO dados) {
@@ -50,5 +52,9 @@ public class Medico {
         if(dados.endereco() != null){
             this.endereco.atualizarEnderecoDTO(dados.endereco());
         }
+    }
+
+    public void desativar(Long id) {
+        this.ativo = false;
     }
 }
