@@ -41,32 +41,37 @@ public class MedicoController {
     //READ
     @GetMapping
     public ResponseEntity<Page<DadosListMedicoDTO>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
-        var page = repository.findAllByAtivoTrue(paginacao).map(DadosListMedicoDTO::new);
-        return ResponseEntity.ok(page);
-    }
+//        var token = ...;
+//        if (token == null){
+//
+//    }
 
-    //UPDATE
-    @PutMapping
-    @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid atualizarDadosMedicoDTO dados) {
-        var medicos = repository.getReferenceById(dados.id());
-        medicos.atualizarInformacoes(dados);
-        return ResponseEntity.ok(new RespostaPutDTO(medicos));
-    }
+    var page = repository.findAllByAtivoTrue(paginacao).map(DadosListMedicoDTO::new);
+            return ResponseEntity.ok(page);
+}
 
-    //DELETE
-    @DeleteMapping("/{id}")
-    @Transactional
-    public ResponseEntity excluir(@PathVariable Long id){
-        var medicos = repository.getReferenceById(id);
-        medicos.desativar(id);
-        return ResponseEntity.noContent().build();
-    }
+//UPDATE
+@PutMapping
+@Transactional
+public ResponseEntity atualizar(@RequestBody @Valid atualizarDadosMedicoDTO dados) {
+    var medicos = repository.getReferenceById(dados.id());
+    medicos.atualizarInformacoes(dados);
+    return ResponseEntity.ok(new RespostaPutDTO(medicos));
+}
 
-    //Método de detalhamento de médico
-    @GetMapping("/{id}")
-    public ResponseEntity detalhar(@PathVariable Long id){
-        var medicos = repository.getReferenceById(id);
-        return ResponseEntity.ok(new RespostaPutDTO(medicos));
-    }
+//DELETE
+@DeleteMapping("/{id}")
+@Transactional
+public ResponseEntity excluir(@PathVariable Long id) {
+    var medicos = repository.getReferenceById(id);
+    medicos.desativar(id);
+    return ResponseEntity.noContent().build();
+}
+
+//Método de detalhamento de médico
+@GetMapping("/{id}")
+public ResponseEntity detalhar(@PathVariable Long id) {
+    var medicos = repository.getReferenceById(id);
+    return ResponseEntity.ok(new RespostaPutDTO(medicos));
+}
 }
